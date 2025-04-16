@@ -23,6 +23,20 @@ namespace C__ExaminationDepartment_1._0.Users
         {
             Console.WriteLine($"\n Аккаунт\n Имя: {name}\n Пароль: {login}\n Возраст: {age}");
         }
-    }
 
+        public void ChangeName(string name)
+        {
+            this.name = name;
+        }
+
+        public void ChangeLogin(string login)
+        {
+            this.login = login;
+        }
+
+        public void ChangeAge(int age)
+        {
+            this.age = age;
+        }
+    }
 }

@@ -24,23 +24,31 @@ namespace C__ExaminationDepartment_1._0.Users
                     }
                     else
                     {
-                        Console.WriteLine("Логин или Пароль не верны.");
-                        return null;
+                        continue;
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Логин или Пароль не верны.");
-                    return null;
+                    continue;
                 }
             }
+            Console.WriteLine("Логин или Пароль не верны.");
             return null;
         }
 
         public User Register(string name, string login, int age)
         {
+            foreach (User user1 in users)
+            {
+                if (user1.name == name)
+                {
+                    Console.WriteLine("Такой пользователь уже существует.");
+                    return null;
+                }
+            }
             User user = new User(name, login, age);
             users.Add(user);
+            Console.WriteLine("Вы успешно зарегистрировались!");
             return user;
         }
     }

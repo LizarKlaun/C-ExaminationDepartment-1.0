@@ -92,8 +92,14 @@ namespace C__ExaminationDepartment_1._0
                             Console.Write("Неверный ввод :< Введите пожалуйста число: ");
                         }
                         user = users.Register(name, login, age);
-                        Console.WriteLine("Вы успешно зарегистрировались!");
                     }
+                    //else if (lol1 == 3)
+                    //{
+                    //    foreach (User user1 in users.users)
+                    //    {
+                    //        Console.WriteLine($" Имя: {user1.name}\n Пароль: {user1.login}\n Возраст: {user1.age}");
+                    //    }
+                    //}
                     else
                     {
                         return;
@@ -103,15 +109,18 @@ namespace C__ExaminationDepartment_1._0
                 while (true)
                 {
                     Console.WriteLine();
-                    Console.WriteLine($" 1.Начать новую викторину\n 2.Создать новую викторину\n 3.Просмотреть результаты викторин\n 4.Просмотреть Топ-20 с конкретной викторины\n 5.Просмотреть статус аккаунта\n 6.Сменить пароль или возраст\n 7.Выйти с аккаунта");
+                    Console.Write($" 1.Начать новую викторину\n 2.Создать новую викторину\n 3.Просмотреть результаты викторин\n 4.Просмотреть Топ-20 с конкретной викторины\n 5.Просмотреть статус аккаунта\n 6.Сменить Имя Пароль или Возраст\n 7.Выйти с аккаунта\n Выберите что вы хотите делать:");
                     int lol2;
                     while (!int.TryParse(Console.ReadLine(), out lol2) || lol2 > 7 || lol2 < 1)
                     {
                         Console.Write(" Неверный ввод :< Введите пожалуйста число: ");
                     }
                     Console.WriteLine();
-
-                    if (lol2 == 2)
+                    if (lol2 == 1)
+                    {
+                        //Console.WriteLine("1. История \n2. География \n3. Биология\n 4. Математика\n 5. Универсальная\n");
+                    }
+                    else if (lol2 == 2)
                     {
                         Console.Write("Введите название викторины: ");
                         name = Console.ReadLine();
@@ -166,7 +175,7 @@ namespace C__ExaminationDepartment_1._0
                                 {
                                     Console.Write("Неверный ввод :< Введите пожалуйста число: ");
                                 }
-                                if (countOfAnsfers < 1) 
+                                if (countOfAnsfers < 1)
                                 {
                                     Console.WriteLine("Количество ответов не может быть меньше 1");
                                     Console.Write($"Введите количество ответов на этот вопрос: ");
@@ -217,9 +226,57 @@ namespace C__ExaminationDepartment_1._0
                         }
                         Quiz quiz = new Quiz(name, theme, user.name, questions);
                     }
+                    else if (lol2 == 3)
+                    {
+                        //Console.WriteLine("Результат созданой вами викторины");
+                    }
+                    else if (lol2 == 4)
+                    {
+                        //Console.WriteLine("Топ-20 с конкретной викторины");
+                    }
                     else if (lol2 == 5)
                     {
                         user.Print();
+                    }
+                    else if (lol2 == 6)
+                    {
+                        Console.Write(" 1.Сменить Имя\n 2.Сменить Пароль\n 3.Сменить Возраст\n 4.Выйти\n Выберите что вы хотите изменить: ");
+                        int lol4;
+                        while (!int.TryParse(Console.ReadLine(), out lol4) || lol4 > 4 || lol4 < 1)
+                        {
+                            Console.Write(" Неверный ввод :< Введите пожалуйста число: ");
+                        }
+                        if (lol4 == 1)
+                        {
+                            Console.Write("Введите Имя: ");
+                            name = Console.ReadLine();
+                            while (string.IsNullOrWhiteSpace(name))
+                            {
+                                Console.Write("Поле Имя должно быть заполненным :< Введите пожалуйста Имя: ");
+                                name = Console.ReadLine();
+                            }
+                            user.ChangeName(name);
+                        }
+                        else if (lol4 == 2)
+                        {
+                            Console.Write("Введите Пароль: ");
+                            login = Console.ReadLine();
+                            while (string.IsNullOrWhiteSpace(login))
+                            {
+                                Console.Write("Поле Пароль должно быть заполненным :< Введите пожалуйста Пароль: ");
+                                login = Console.ReadLine();
+                            }
+                            user.ChangeLogin(login);
+                        }
+                        else if (lol4 == 3)
+                        {
+                            Console.Write("Введите Возраст: ");
+                            while (!int.TryParse(Console.ReadLine(), out age))
+                            {
+                                Console.Write("Неверный ввод :< Введите пожалуйста число: ");
+                            }
+                            user.ChangeAge(age);
+                        }
                     }
                     else if (lol2 == 7)
                     {
