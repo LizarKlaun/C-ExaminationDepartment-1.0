@@ -10,9 +10,9 @@ namespace C__ExaminationDepartment_1._0
         {
             ArrayUsers users = new ArrayUsers();
             ArrayCuizzes quizzes = new ArrayCuizzes();
-            User? user = null;
-            User lizar = new User("Lizar", "Klaun", 25);
-            users.users.Add(lizar);
+            User? user = new User("Lizar", "Klaun", 25);
+            users.users.Add(user);
+            user = null;
             string? name;
             string? login;
             int age;
@@ -304,7 +304,17 @@ namespace C__ExaminationDepartment_1._0
                     }
                     else if (lol2 == 3)
                     {
-                        //Console.WriteLine("Просмотреть результаты своих викторин");
+                        Console.WriteLine($"\n Викторины {user.name}:");
+                        int i = 0;
+                        foreach (Quiz quiz in quizzes.quizzes)
+                        {
+                            if (quiz.nameOwner == user.name)
+                            {
+                                i++;
+                                Console.Write($" {i}. ");
+                                quiz.DisplayTop1();
+                            }
+                        }
                     }
                     else if (lol2 == 4)
                     {
@@ -418,7 +428,9 @@ namespace C__ExaminationDepartment_1._0
                                 Console.Write("Поле Имя должно быть заполненным :< Введите пожалуйста Имя: ");
                                 name = Console.ReadLine();
                             }
+                            users.users.Remove(user);
                             user.ChangeName(name);
+                            users.users.Add(user);
                         }
                         else if (lol4 == 2)
                         {
@@ -429,7 +441,9 @@ namespace C__ExaminationDepartment_1._0
                                 Console.Write("Поле Пароль должно быть заполненным :< Введите пожалуйста Пароль: ");
                                 login = Console.ReadLine();
                             }
+                            users.users.Remove(user);
                             user.ChangeLogin(login);
+                            users.users.Add(user);
                         }
                         else if (lol4 == 3)
                         {
@@ -438,7 +452,9 @@ namespace C__ExaminationDepartment_1._0
                             {
                                 Console.Write("Неверный ввод :< Введите пожалуйста число: ");
                             }
+                            users.users.Remove(user);
                             user.ChangeAge(age);
+                            users.users.Add(user);
                         }
                     }
                     else if (lol2 == 7)

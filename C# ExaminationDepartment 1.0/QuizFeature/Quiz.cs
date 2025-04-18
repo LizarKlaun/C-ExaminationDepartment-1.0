@@ -12,6 +12,7 @@ namespace C__ExaminationDepartment_1._0.QuizFeature
         public string name;
         public string themeQuiz;
         public string nameOwner;
+        public QuizResult? top1;
         public List<Question> questions;
         public List<QuizResult> top20user;
 
@@ -20,6 +21,7 @@ namespace C__ExaminationDepartment_1._0.QuizFeature
             this.name = name;
             this.themeQuiz = themeQuiz;
             this.nameOwner = nameOwner;
+            top1 = null;
             this.questions = questions;
             top20user = new List<QuizResult>();
         }
@@ -56,15 +58,29 @@ namespace C__ExaminationDepartment_1._0.QuizFeature
                 }
             }
             Console.WriteLine("\n Тест завершен!");
+            Console.WriteLine($" Количество вопросов: {questions.Count}");
+            Console.WriteLine($" Количество правильных ответов: {countCorrectAnswers}");
             QuizResult userResult = new QuizResult(userName, countCorrectAnswers, questions, userAnswers);
-            top20user.Add(userResult);
+            foreach (var user in top20user)
+            {
+                if (user.countCorrectAnswers < countCorrectAnswers)
+                {
+                    top20user.Insert(top20user.IndexOf(user), userResult);
+                    break;
+                }
+            }
+            if (top20user.Count > 20)
+            {
+                top20user.RemoveAt(20);
+            }
+            top1 = top20user[0];
         }
 
         public void DisplayTop20()
         {
-            Console.WriteLine($"\n Тест {name}");
-            Console.WriteLine($" Тематика теста: {themeQuiz}");
-            Console.WriteLine($" Владелец теста: {nameOwner}");
+            Console.WriteLine($"\n Викторина {name}");
+            Console.WriteLine($" Тематика викторины: {themeQuiz}");
+            Console.WriteLine($" Владелец викторины: {nameOwner}");
             Console.WriteLine($" Топ 20 пользователей:");
             int i = 0;
             foreach (var user in top20user)
@@ -73,6 +89,22 @@ namespace C__ExaminationDepartment_1._0.QuizFeature
                 Console.WriteLine();
                 Console.WriteLine($"{i}.");
                 user.DisplayResult();
+            }
+        }
+
+        public void DisplayTop1()
+        {
+            Console.WriteLine($"\n Викторина {name}");
+            Console.WriteLine($" Тематика викторины: {themeQuiz}");
+            Console.WriteLine($" Владелец викторины: {nameOwner}");
+            Console.WriteLine($" Топ 1 пользователь:");
+            if (top1 != null)
+            {
+                top1.DisplayResult();
+            }
+            else
+            {
+                Console.WriteLine(" Топ 1 пользователя отсутствует.");
             }
         }
     }
