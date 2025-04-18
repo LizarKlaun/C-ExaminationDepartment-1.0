@@ -18,7 +18,7 @@ namespace C__ExaminationDepartment_1._0.Users
                 {
                     if (user1.login == login)
                     {
-                        Console.WriteLine("Вы успешно авторизовались!");
+                        Console.WriteLine("\n Вы успешно авторизовались!");
                         User user = new User(user1.name, user1.login, user1.age);
                         return user;
                     }
@@ -32,7 +32,7 @@ namespace C__ExaminationDepartment_1._0.Users
                     continue;
                 }
             }
-            Console.WriteLine("Логин или Пароль не верны.");
+            Console.WriteLine(" Логин или Пароль не верны.");
             return null;
         }
 
@@ -42,13 +42,13 @@ namespace C__ExaminationDepartment_1._0.Users
             {
                 if (user1.name == name)
                 {
-                    Console.WriteLine("Такой пользователь уже существует.");
+                    Console.WriteLine(" Такой пользователь уже существует.");
                     return null;
                 }
             }
             User user = new User(name, login, age);
             users.Add(user);
-            Console.WriteLine("Вы успешно зарегистрировались!");
+            Console.WriteLine("\n Вы успешно зарегистрировались!");
             return user;
         }
     }
