@@ -61,6 +61,10 @@ namespace C__ExaminationDepartment_1._0.QuizFeature
             Console.WriteLine($" Количество вопросов: {questions.Count}");
             Console.WriteLine($" Количество правильных ответов: {countCorrectAnswers}");
             QuizResult userResult = new QuizResult(userName, countCorrectAnswers, questions, userAnswers);
+            if (top20user.Count() == 0)
+            {
+                top20user.Add(userResult);
+            }
             foreach (var user in top20user)
             {
                 if (user.countCorrectAnswers < countCorrectAnswers)
