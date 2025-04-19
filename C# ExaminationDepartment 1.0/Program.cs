@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using C__ExaminationDepartment_1._0.Users;
 using C__ExaminationDepartment_1._0.QuizFeature;
+using System.Linq;
 
 namespace C__ExaminationDepartment_1._0
 {
@@ -9,7 +10,7 @@ namespace C__ExaminationDepartment_1._0
         static void Main(string[] args)
         {
             ArrayUsers users = new ArrayUsers();
-            ArrayCuizzes quizzes = new ArrayCuizzes();
+            ArrayQuizzes quizzes = new ArrayQuizzes();
             User? user = new User("Lizar", "Klaun", 25);
             users.users.Add(user);
             user = null;
@@ -23,7 +24,7 @@ namespace C__ExaminationDepartment_1._0
                 {
                     Console.Write($"\n 1.Залогинится\n 2.Зарегистрироваться\n 3.Выйти\n Выберите как вы хотите войти или выйти: ");
                     int lol1;
-                    while (!int.TryParse(Console.ReadLine(), out lol1))
+                    while (!int.TryParse(Console.ReadLine(), out lol1) || lol1 > 3 || lol1 < 1)
                     {
                         Console.Write(" Неверный ввод :< Введите пожалуйста число: ");
                     }
@@ -94,19 +95,11 @@ namespace C__ExaminationDepartment_1._0
                         }
                         user = users.Register(name, login, age);
                     }
-                    //else if (lol1 == 3)
-                    //{
-                    //    foreach (User user1 in users.users)
-                    //    {
-                    //        Console.WriteLine($" Имя: {user1.name}\n Пароль: {user1.login}\n Возраст: {user1.age}");
-                    //    }
-                    //}
                     else
                     {
                         return;
                     }
                 }
-                user.Print();
                 while (true)
                 {
                     Console.WriteLine();
@@ -147,7 +140,7 @@ namespace C__ExaminationDepartment_1._0
                                 {
                                     Console.Write(" Неверный ввод :< Введите пожалуйста число: ");
                                 }
-                                quizzes.quizzes[lol4 - 1].StartQuiz(user.name);
+                                quizzes.quizzes.Where(quiz => quiz.themeQuiz == "История").ToList()[lol4 - 1].StartQuiz(user.name);
                                 break;
                             case 2:
                                 if (quizzes.quizzes.Where(quiz => quiz.themeQuiz == "География").ToList().Count == 0)
@@ -166,7 +159,7 @@ namespace C__ExaminationDepartment_1._0
                                 {
                                     Console.Write(" Неверный ввод :< Введите пожалуйста число: ");
                                 }
-                                quizzes.quizzes[lol4 - 1].StartQuiz(user.name);
+                                quizzes.quizzes.Where(quiz => quiz.themeQuiz == "География").ToList()[lol4 - 1].StartQuiz(user.name);
                                 break;
                             case 3:
                                 if (quizzes.quizzes.Where(quiz => quiz.themeQuiz == "Биология").ToList().Count == 0)
@@ -185,7 +178,7 @@ namespace C__ExaminationDepartment_1._0
                                 {
                                     Console.Write(" Неверный ввод :< Введите пожалуйста число: ");
                                 }
-                                quizzes.quizzes[lol4 - 1].StartQuiz(user.name);
+                                quizzes.quizzes.Where(quiz => quiz.themeQuiz == "Биология").ToList()[lol4 - 1].StartQuiz(user.name);
                                 break;
                             case 4:
                                 if (quizzes.quizzes.Where(quiz => quiz.themeQuiz == "Математика").ToList().Count == 0)
@@ -204,8 +197,28 @@ namespace C__ExaminationDepartment_1._0
                                 {
                                     Console.Write(" Неверный ввод :< Введите пожалуйста число: ");
                                 }
-                                quizzes.quizzes[lol4 - 1].StartQuiz(user.name);
+                                quizzes.quizzes.Where(quiz => quiz.themeQuiz == "Математика").ToList()[lol4 - 1].StartQuiz(user.name);
                                 break;
+                            case 5:
+                                if (quizzes.quizzes.Where(quiz => quiz.themeQuiz == "Универсальная").ToList().Count == 0)
+                                {
+                                    Console.WriteLine("Викторин c этой темой нету :<");
+                                    break;
+                                }
+                                Console.WriteLine($"Универсальныу викторины: ");
+                                foreach (Quiz quiz in quizzes.quizzes.Where(quiz => quiz.themeQuiz == "Универсальная").ToList())
+                                {
+                                    i++;
+                                    Console.WriteLine($"{i}: {quiz.name}");
+                                }
+                                Console.Write("Выберите викторину: ");
+                                while (!int.TryParse(Console.ReadLine(), out lol4) || lol4 > i || lol4 < 1)
+                                {
+                                    Console.Write(" Неверный ввод :< Введите пожалуйста число: ");
+                                }
+                                quizzes.quizzes.Where(quiz => quiz.themeQuiz == "Универсальная").ToList()[lol4 - 1].StartQuiz(user.name);
+                                break;
+
                         }
                     }
                     else if (lol2 == 2)
@@ -217,10 +230,15 @@ namespace C__ExaminationDepartment_1._0
                             Console.Write("Название викторины должно быть заполненным :< Введите пожалуйта название викторины: ");
                             name = Console.ReadLine();
                         }
-                        Console.Write("1. История \n2. География \n3. Биология\n4. Математика\n");
+                        if (quizzes.quizzes.Where(quiz => quiz.name == name).ToList().Count != 0)
+                        {
+                            Console.WriteLine("Викторина с таким названием уже существует :<");
+                            break;
+                        }
+                        Console.Write("1. История \n2. География \n3. Биология\n4. Математика\n5. Универсальная\n");
                         Console.Write("Выберите тему викторины: ");
                         int lol3;
-                        while (!int.TryParse(Console.ReadLine(), out lol3) || lol3 > 4 || lol3 < 1)
+                        while (!int.TryParse(Console.ReadLine(), out lol3) || lol3 > 5 || lol3 < 1)
                         {
                             Console.Write(" Неверный ввод :< Введите пожалуйста число: ");
                         }
@@ -239,9 +257,18 @@ namespace C__ExaminationDepartment_1._0
                         {
                             theme = "Биология";
                         }
-                        else
+                        else if (lol3 == 4)
                         {
                             theme = "Математика";
+                        }
+                        else
+                        {
+                            if (quizzes.quizzes.Count() == 0)
+                            {
+                                Console.WriteLine("Пока что не одной викторины не было создано :<");
+                                break;
+                            }
+                            theme = "Универсальная";
                         }
 
                         int countOfQuestions = 0;
@@ -257,6 +284,36 @@ namespace C__ExaminationDepartment_1._0
                                 Console.WriteLine("Количество вопросов не может быть меньше 1");
                                 Console.Write($"Введите количество вопросов в викторине: ");
                             }
+                        }
+
+                        if (theme == "Универсальная")
+                        {
+                            List<Question> allQuestions = new List<Question>();
+                            foreach (Quiz quiz in quizzes.quizzes)
+                            {
+                                if (quiz.themeQuiz != "Универсальная")
+                                {
+                                    foreach (Question question in quiz.questions)
+                                    {
+                                        allQuestions.Add(question);
+                                    }
+                                }
+                            }
+                            List<Question> randomQuestions = allQuestions.OrderBy(x => Guid.NewGuid()).Take(countOfQuestions).ToList();
+                            Console.WriteLine($"Викторина с универсальной темой будет состоять из {countOfQuestions} случайных вопросов из других викторин:");
+                            foreach (Question question in randomQuestions)
+                            {
+                                foreach (Quiz quiz in quizzes.quizzes)
+                                {
+                                    if (quiz.questions.Contains(question))
+                                    {
+                                        Console.WriteLine($"Викторина: {quiz.name}");
+                                        break;
+                                    }
+                                }
+                            }
+                            quizzes.CreateQuiz(name, theme, user.name, randomQuestions);
+                            break;
                         }
 
                         List<Question> questions = new List<Question>();
@@ -346,7 +403,7 @@ namespace C__ExaminationDepartment_1._0
                                 {
                                     Console.Write(" Неверный ввод :< Введите пожалуйста число: ");
                                 }
-                                quizzes.quizzes[lol4 - 1].DisplayTop20();
+                                quizzes.quizzes.Where(quiz => quiz.themeQuiz == "История").ToList()[lol4 - 1].DisplayTop20();
                                 break;
                             case 2:
                                 if (quizzes.quizzes.Where(quiz => quiz.themeQuiz == "География").ToList().Count == 0)
@@ -365,7 +422,7 @@ namespace C__ExaminationDepartment_1._0
                                 {
                                     Console.Write(" Неверный ввод :< Введите пожалуйста число: ");
                                 }
-                                quizzes.quizzes[lol4 - 1].DisplayTop20();
+                                quizzes.quizzes.Where(quiz => quiz.themeQuiz == "География").ToList()[lol4 - 1].DisplayTop20();
                                 break;
                             case 3:
                                 if (quizzes.quizzes.Where(quiz => quiz.themeQuiz == "Биология").ToList().Count == 0)
@@ -384,7 +441,7 @@ namespace C__ExaminationDepartment_1._0
                                 {
                                     Console.Write(" Неверный ввод :< Введите пожалуйста число: ");
                                 }
-                                quizzes.quizzes[lol4 - 1].DisplayTop20();
+                                quizzes.quizzes.Where(quiz => quiz.themeQuiz == "Биология").ToList()[lol4 - 1].DisplayTop20();
                                 break;
                             case 4:
                                 if (quizzes.quizzes.Where(quiz => quiz.themeQuiz == "Математика").ToList().Count == 0)
@@ -403,7 +460,26 @@ namespace C__ExaminationDepartment_1._0
                                 {
                                     Console.Write(" Неверный ввод :< Введите пожалуйста число: ");
                                 }
-                                quizzes.quizzes[lol4 - 1].DisplayTop20();
+                                quizzes.quizzes.Where(quiz => quiz.themeQuiz == "Математика").ToList()[lol4 - 1].DisplayTop20();
+                                break;
+                            case 5:
+                                if (quizzes.quizzes.Where(quiz => quiz.themeQuiz == "Универсальная").ToList().Count == 0)
+                                {
+                                    Console.WriteLine("Викторин c этой темой нету :<");
+                                    break;
+                                }
+                                Console.WriteLine($"Универсальные викторины: ");
+                                foreach (Quiz quiz in quizzes.quizzes.Where(quiz => quiz.themeQuiz == "Универсальная").ToList())
+                                {
+                                    i++;
+                                    Console.WriteLine($"{i}: {quiz.name}");
+                                }
+                                Console.Write("Выберите викторину: ");
+                                while (!int.TryParse(Console.ReadLine(), out lol4) || lol4 > i || lol4 < 1)
+                                {
+                                    Console.Write(" Неверный ввод :< Введите пожалуйста число: ");
+                                }
+                                quizzes.quizzes.Where(quiz => quiz.themeQuiz == "Универсальная").ToList()[lol4 - 1].DisplayTop20();
                                 break;
                         }
                     }
